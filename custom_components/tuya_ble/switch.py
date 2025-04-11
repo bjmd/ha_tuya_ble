@@ -325,7 +325,7 @@ mapping: dict[str, TuyaBLECategorySwitchMapping] = {
                     ),
                 ),
             ],
-            "bfff8cbh1u1gulix": [  # Irrigation computer
+            "fnlw6npo": [  # Irrigation computer - BWV-YC02S
                 TuyaBLESwitchMapping(
                     dp_id=105,
                     description=SwitchEntityDescription(

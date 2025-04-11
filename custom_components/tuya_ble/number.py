@@ -436,7 +436,7 @@ mapping: dict[str, TuyaBLECategoryNumberMapping] = {
                     ),
                 ),
             ],
-            "bfff8cbh1u1gulix": [  # Irrigation computer - Jectse
+            "fnlw6npo": [  # Irrigation computer - BWV-YC02S
                 TuyaBLENumberMapping(
                     dp_id=106,
                     description=NumberEntityDescription(

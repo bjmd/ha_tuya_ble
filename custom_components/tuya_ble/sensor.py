@@ -388,7 +388,7 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
                     ),
                 ),
             ],
-            "bfff8cbh1u1gulix": [  # Irrigation computer - Jectse
+            "fnlw6npo": [  # Irrigation computer - BWV-YC02S
                 TuyaBLEBatteryMapping(dp_id=11),
                 TuyaBLESensorMapping(
                     dp_id=111,
