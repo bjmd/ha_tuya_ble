@@ -1,4 +1,5 @@
 """The Tuya BLE integration."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -31,19 +32,13 @@ from .tuya_ble import TuyaBLEDataPointType, TuyaBLEDevice
 
 _LOGGER = logging.getLogger(__name__)
 
-TuyaBLENumberGetter = (
-    Callable[["TuyaBLENumber", TuyaBLEProductInfo], float | None] | None
-)
+TuyaBLENumberGetter = Callable[["TuyaBLENumber", TuyaBLEProductInfo], float | None] | None
 
 
-TuyaBLENumberIsAvailable = (
-    Callable[["TuyaBLENumber", TuyaBLEProductInfo], bool] | None
-)
+TuyaBLENumberIsAvailable = Callable[["TuyaBLENumber", TuyaBLEProductInfo], bool] | None
 
 
-TuyaBLENumberSetter = (
-    Callable[["TuyaBLENumber", TuyaBLEProductInfo, float], None] | None
-)
+TuyaBLENumberSetter = Callable[["TuyaBLENumber", TuyaBLEProductInfo, float], None] | None
 
 
 @dataclass
@@ -135,10 +130,7 @@ def set_fingerbot_program_repeat_count(
     if product.fingerbot and product.fingerbot.program:
         datapoint = self._device.datapoints[product.fingerbot.program]
         if datapoint and type(datapoint.value) is bytes:
-            new_value = (
-                int.to_bytes(int(value), 2, "big") +
-                datapoint.value[2:]
-            )
+            new_value = int.to_bytes(int(value), 2, "big") + datapoint.value[2:]
             self._hass.create_task(datapoint.set_value(new_value))
 
 
@@ -268,12 +260,7 @@ mapping: dict[str, TuyaBLECategoryNumberMapping] = {
                 ],
             ),
             **dict.fromkeys(
-                [
-                    "blliqpsj",
-                    "ndvkgsrm",
-                    "yiihr7zh",
-                    "neq16kgd"
-                ],  # Fingerbot Plus
+                ["blliqpsj", "ndvkgsrm", "yiihr7zh", "neq16kgd"],  # Fingerbot Plus
                 [
                     TuyaBLENumberMapping(
                         dp_id=9,
@@ -394,8 +381,7 @@ mapping: dict[str, TuyaBLECategoryNumberMapping] = {
     ),
     "znhsb": TuyaBLECategoryNumberMapping(
         products={
-            "cdlandip":  # Smart water bottle
-            [
+            "cdlandip": [  # Smart water bottle
                 TuyaBLENumberMapping(
                     dp_id=103,
                     description=NumberEntityDescription(
@@ -450,11 +436,35 @@ mapping: dict[str, TuyaBLECategoryNumberMapping] = {
                     ),
                 ),
             ],
+            "bfff8cbh1u1gulix": [  # Irrigation computer - Jectse
+                TuyaBLENumberMapping(
+                    dp_id=106,
+                    description=NumberEntityDescription(
+                        key="countdown_duration_z1",
+                        icon="mdi:timer",
+                        native_max_value=1440,
+                        native_min_value=1,
+                        native_unit_of_measurement=UnitOfTime.MINUTES,
+                        native_step=1,
+                    ),
+                ),
+                TuyaBLENumberMapping(
+                    dp_id=103,
+                    description=NumberEntityDescription(
+                        key="countdown_duration_z2",
+                        icon="mdi:timer",
+                        native_max_value=1440,
+                        native_min_value=1,
+                        native_unit_of_measurement=UnitOfTime.MINUTES,
+                        native_step=1,
+                    ),
+                ),
+            ],
         },
     ),
     "sfkzq": TuyaBLECategoryNumberMapping(
         products={
-            "nxquc5lb": [ # Smart water timer - SOP10
+            "nxquc5lb": [  # Smart water timer - SOP10
                 TuyaBLENumberMapping(
                     dp_id=11,
                     description=NumberEntityDescription(
@@ -546,9 +556,7 @@ async def async_setup_entry(
     mappings = get_mapping_by_device(data.device)
     entities: list[TuyaBLENumber] = []
     for mapping in mappings:
-        if mapping.force_add or data.device.datapoints.has_id(
-            mapping.dp_id, mapping.dp_type
-        ):
+        if mapping.force_add or data.device.datapoints.has_id(mapping.dp_id, mapping.dp_type):
             entities.append(
                 TuyaBLENumber(
                     hass,

@@ -1,4 +1,5 @@
 """The Tuya BLE integration."""
+
 from __future__ import annotations
 from dataclasses import dataclass
 
@@ -78,9 +79,7 @@ class TuyaBLEEntity(CoordinatorEntity):
         self._attr_has_entity_name = True
         self._attr_device_info = get_device_info(self._device)
         self._attr_unique_id = f"{self._device.device_id}-{description.key}"
-        self.entity_id = generate_entity_id(
-            "sensor.{}", self._attr_unique_id, hass=hass
-        )
+        self.entity_id = generate_entity_id("sensor.{}", self._attr_unique_id, hass=hass)
 
     @property
     def available(self) -> bool:
@@ -151,9 +150,7 @@ class TuyaBLECoordinator(DataUpdateCoordinator[None]):
         """Trigger the callbacks for disconnected."""
         if self._unsub_disconnect is None:
             delay: float = SET_DISCONNECTED_DELAY
-            self._unsub_disconnect = async_call_later(
-                self.hass, delay, self._set_disconnected
-            )
+            self._unsub_disconnect = async_call_later(self.hass, delay, self._set_disconnected)
 
 
 @dataclass
@@ -184,11 +181,8 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
     "ms": TuyaBLECategoryInfo(
         products={
             **dict.fromkeys(
-                [
-                    "ludzroix",
-                    "isk2p555"
-                ],
-                    TuyaBLEProductInfo(  # device product_id
+                ["ludzroix", "isk2p555"],
+                TuyaBLEProductInfo(  # device product_id
                     name="Smart Lock",
                 ),
             ),
@@ -219,12 +213,7 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
                 ),
             ),
             **dict.fromkeys(
-                [
-                    "blliqpsj",
-                    "ndvkgsrm",
-                    "yiihr7zh", 
-                    "neq16kgd"
-                ],  # device product_ids
+                ["blliqpsj", "ndvkgsrm", "yiihr7zh", "neq16kgd"],  # device product_ids
                 TuyaBLEProductInfo(
                     name="Fingerbot Plus",
                     fingerbot=TuyaBLEFingerbotInfo(
@@ -267,12 +256,12 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
     "wk": TuyaBLECategoryInfo(
         products={
             **dict.fromkeys(
-            [
-            "drlajpqc", 
-            "nhj2j7su",
-            ],  # device product_id
-            TuyaBLEProductInfo(  
-                name="Thermostatic Radiator Valve",
+                [
+                    "drlajpqc",
+                    "nhj2j7su",
+                ],  # device product_id
+                TuyaBLEProductInfo(
+                    name="Thermostatic Radiator Valve",
                 ),
             ),
         },
@@ -286,8 +275,7 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
     ),
     "znhsb": TuyaBLECategoryInfo(
         products={
-            "cdlandip":  # device product_id
-            TuyaBLEProductInfo(
+            "cdlandip": TuyaBLEProductInfo(  # device product_id
                 name="Smart water bottle",
             ),
         },
@@ -303,10 +291,11 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
         products={
             **dict.fromkeys(
                 [
-                "6pahkcau", 
-                "hfgdqhho",
+                    "6pahkcau",
+                    "hfgdqhho",
+                    "bfff8cbh1u1gulix",
                 ],  # device product_id
-                TuyaBLEProductInfo( 
+                TuyaBLEProductInfo(
                     name="Irrigation computer",
                 ),
             ),
@@ -315,9 +304,7 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
 }
 
 
-def get_product_info_by_ids(
-    category: str, product_id: str
-) -> TuyaBLEProductInfo | None:
+def get_product_info_by_ids(category: str, product_id: str) -> TuyaBLEProductInfo | None:
     category_info = devices_database.get(category)
     if category_info is not None:
         product_info = category_info.products.get(product_id)
@@ -371,9 +358,7 @@ def get_device_info(device: TuyaBLEDevice) -> DeviceInfo | None:
         connections={(dr.CONNECTION_BLUETOOTH, device.address)},
         hw_version=device.hardware_version,
         identifiers={(DOMAIN, device.address)},
-        manufacturer=(
-            product_info.manufacturer if product_info else DEVICE_DEF_MANUFACTURER
-        ),
+        manufacturer=(product_info.manufacturer if product_info else DEVICE_DEF_MANUFACTURER),
         model=("%s (%s)")
         % (
             device.product_model or product_name,
