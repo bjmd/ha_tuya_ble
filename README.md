@@ -47,6 +47,7 @@ The integration works locally, but connection to Tuya BLE device requires device
 
 * Irrigation computer (category_id 'ggq')
   + Irrigation computer (product_id '6pahkcau')
+  + Irrigation computer - Jectse (product_id 'bfff8cbh1u1gulix')
 
 * Water valve (category_id 'sfkzq')
   + Water valve (product_id 'nxquc5lb')
